@@ -1,5 +1,6 @@
 #include <pebble.h>
 #include <time.h>
+#include "gbitmap_color_palette_manipulator.h"
 
 #define WALLPAPER_COUNT 17
 const int WALLPAPER_IDS[WALLPAPER_COUNT] = {
@@ -28,7 +29,7 @@ TextLayer* _timeLayer;
 BitmapLayer* _wallpaperLayer;
 
 
-void change_wallpaper(const int resource_id) {
+void change_wallpaper(const int resource_id, GColor whiteSwapColor, GColor blackSwapColor) {
     if(_bmpCreated) {
       gbitmap_destroy(_bmp);
       _bmpCreated = false;
@@ -36,6 +37,32 @@ void change_wallpaper(const int resource_id) {
 
     _bmp = gbitmap_create_with_resource(resource_id);
     _bmpCreated = true;
+
+    #ifdef PBL_COLOR
+      // Compositing mode could be used to change either black or white to another color.
+      //bitmap_layer_set_background_color(_wallpaperLayer, GColorRed);
+      //bitmap_layer_set_compositing_mode(_wallpaperLayer, GCompOpSet);
+
+      // Perform palette-based color replacement on the indexed black/white image
+      GBitmap* bmp = gbitmap_create_palettized_from_1bit(_bmp);
+      gbitmap_destroy(_bmp);
+      _bmp = bmp;
+      if (gcolor_equal(GColorWhite, blackSwapColor) && gcolor_equal(GColorBlack, whiteSwapColor)) {
+        // If we're swapping white for black and black for white, then we need to change one of the
+        // colors to a different color or the entire bitmap will become one color.
+        replace_gbitmap_color(GColorWhite, GColorRed, _bmp, _wallpaperLayer);
+        replace_gbitmap_color(GColorBlack, GColorWhite, _bmp, _wallpaperLayer);
+        replace_gbitmap_color(GColorRed, GColorBlack, _bmp, _wallpaperLayer);
+      } else {
+        if (!gcolor_equal(GColorWhite, whiteSwapColor)) {
+          replace_gbitmap_color(GColorWhite, whiteSwapColor, _bmp, _wallpaperLayer);
+        }
+        if (!gcolor_equal(GColorBlack, blackSwapColor)) {
+          replace_gbitmap_color(GColorBlack, blackSwapColor, _bmp, _wallpaperLayer);
+        }
+      }
+    #endif
+
     bitmap_layer_set_bitmap(_wallpaperLayer, _bmp);
     layer_add_child(window_get_root_layer(_window), bitmap_layer_get_layer(_wallpaperLayer));
 }
@@ -46,7 +73,68 @@ void change_wallpaper(const int resource_id) {
 void change_wallpaper_random() {
     srand(time(NULL));
     int resource_index = rand() % WALLPAPER_COUNT;
-    change_wallpaper(WALLPAPER_IDS[resource_index]);
+    GColor whiteSwapColor = GColorWhite;
+    GColor blackSwapColor = GColorBlack;
+    switch (resource_index) {
+      case 0: // android, green A4CA39
+        whiteSwapColor = GColorGreen;
+        blackSwapColor = GColorWhite;
+        break;
+      case 1: // berserk
+        whiteSwapColor = GColorRed;
+        break;
+      case 2: // black_knights
+        // NO-OP
+        break;
+      case 3: // clare
+        whiteSwapColor = GColorBlack;
+        blackSwapColor = GColorWhite;
+        break;
+      case 4: // dragon1
+        whiteSwapColor = GColorDarkCandyAppleRed;
+        blackSwapColor = GColorWhite;
+        break;
+      case 5: // dragon3
+        // NO-OP
+        break;
+      case 6: // drill
+        // NO-OP
+        break;
+      case 7: // fairy_tale
+        whiteSwapColor = GColorRed;
+        break;
+      case 8: // frozen_flame
+        whiteSwapColor = GColorOrange;
+        break;
+      case 9: // lxx
+        whiteSwapColor = GColorLightGray;
+        blackSwapColor = GColorImperialPurple;
+        break;
+      case 10: // neverwinter
+        whiteSwapColor = GColorBabyBlueEyes;
+        break;
+      case 11: // octocat
+        // NO-OP
+        break;
+      case 12: // pentagon_skull
+        whiteSwapColor = GColorBlack;
+        blackSwapColor = GColorWhite;
+        break;
+      case 13: // pipboy
+        whiteSwapColor = GColorGreen;
+        break;
+      case 14: // sac
+        // NO-OP
+        break;
+      case 15: // vault
+        whiteSwapColor = GColorDarkCandyAppleRed;
+        blackSwapColor = GColorIcterine;
+        break;
+      case 16: // yoko_skull
+        // NO-OP
+        break;
+    }
+    change_wallpaper(WALLPAPER_IDS[resource_index], whiteSwapColor, blackSwapColor);
 }
 
 /**
@@ -122,7 +210,10 @@ void init(void) {
     _window = window_create();
     window_stack_push(_window, true /* Animated */);
     window_set_background_color(_window, GColorBlack);
+
+    #ifdef PBL_SDK_2
     window_set_fullscreen(_window, true);
+    #endif
 
     // create the bitmap layer at the back
     _wallpaperLayer = bitmap_layer_create(GRect(0,0, SCREEN_WIDTH, WALLPAPER_HEIGHT));

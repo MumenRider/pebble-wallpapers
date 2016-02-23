@@ -4,7 +4,7 @@
   "longName": "wallpapers",
   "companyName": "companyName",
   "versionCode": 1,
-  "versionLabel": "1.0.0",
+  "versionLabel": "1.0",
   "watchapp": {
     "watchface": true
   },
@@ -13,25 +13,101 @@
   },
   "resources": {
     "media": [
-      { "type": "png", "name": "WALL_0", "file": "images/android.png" },
-      { "type": "png", "name": "WALL_1", "file": "images/berserk.png" },
-      { "type": "png", "name": "WALL_2", "file": "images/black_knights.png" },
-      { "type": "png", "name": "WALL_3", "file": "images/clare.png" },
-      { "type": "png", "name": "WALL_4", "file": "images/dragon1.png" },
-      { "type": "png", "name": "WALL_5", "file": "images/dragon3.png" },
-      { "type": "png", "name": "WALL_6", "file": "images/drill.png" },
-      { "type": "png", "name": "WALL_7", "file": "images/fairy_tail.png" },
-      { "type": "png", "name": "WALL_8", "file": "images/frozen_flame.png" },
-      { "type": "png", "name": "WALL_9", "file": "images/lxx.png" },
-      { "type": "png", "name": "WALL_10", "file": "images/neverwinter.png" },
-      { "type": "png", "name": "WALL_11", "file": "images/octocat.png" },
-      { "type": "png", "name": "WALL_12", "file": "images/pentagon_skull.png" },
-      { "type": "png", "name": "WALL_13", "file": "images/pipboy.png" },
-      { "type": "png", "name": "WALL_14", "file": "images/sac.png" },
-      { "type": "png", "name": "WALL_15", "file": "images/vault.png" },
-      { "type": "png", "name": "WALL_16", "file": "images/yoko_skull.png" },
-
-      { "type": "png", "name": "MENU_ICON", "file": "menu_icon.png" }
+      {
+        "type": "pbi",
+        "name": "WALL_0",
+        "file": "images/android.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_1",
+        "file": "images/berserk.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_2",
+        "file": "images/black_knights.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_3",
+        "file": "images/clare.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_4",
+        "file": "images/dragon1.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_5",
+        "file": "images/dragon3.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_6",
+        "file": "images/drill.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_7",
+        "file": "images/fairy_tail.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_8",
+        "file": "images/frozen_flame.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_9",
+        "file": "images/lxx.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_10",
+        "file": "images/neverwinter.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_11",
+        "file": "images/octocat.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_12",
+        "file": "images/pentagon_skull.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_13",
+        "file": "images/pipboy.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_14",
+        "file": "images/sac.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_15",
+        "file": "images/vault.png"
+      },
+      {
+        "type": "pbi",
+        "name": "WALL_16",
+        "file": "images/yoko_skull.png"
+      },
+      {
+        "type": "pbi",
+        "name": "MENU_ICON",
+        "file": "menu_icon.png"
+      }
     ]
-  }
+  },
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ],
+  "sdkVersion": "3"
 }
